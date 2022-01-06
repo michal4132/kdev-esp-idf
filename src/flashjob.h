@@ -1,14 +1,13 @@
 #ifndef FLASHJOB_H
 #define FLASHJOB_H
 
+#include <interfaces/iproject.h>
 #include <outputview/outputjob.h>
-#include <project/projectmodel.h>
 #include <QProcess>
 
 namespace KDevelop {
     class ILaunchConfiguration;
     class OutputModel;
-    class CommandExecutor;
 }
 
 class FlashJob : public KDevelop::OutputJob

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>BrowserAppPage</class>
- <widget class="QWidget" name="BrowserAppPage">
+ <class>ESPIDFPage</class>
+ <widget class="QWidget" name="ESPIDFPage">
   <property name="geometry">
    <rect>
     <x>0</x>

@@ -3,7 +3,7 @@
 #include <interfaces/icore.h>
 #include <interfaces/iplugincontroller.h>
 #include <outputview/outputmodel.h>
-#include <interfaces/iproject.h>
+#include <project/projectmodel.h>
 #include <util/path.h>
 
 FlashJob::FlashJob(KDevelop::ILaunchConfiguration* cfg, KDevelop::IProject* _project, QProcess* _executor, QProcessEnvironment _env, QString _baudrate, QString _port)
@@ -19,7 +19,6 @@ FlashJob::FlashJob(KDevelop::ILaunchConfiguration* cfg, KDevelop::IProject* _pro
     baudrate = _baudrate;
 }
 
-
 void FlashJob::printOutput(){
     while (executor->canReadLine())
     {
@@ -28,7 +27,6 @@ void FlashJob::printOutput(){
         model->appendLine(line);
     }
 } 
-
 
 void FlashJob::start()
 {

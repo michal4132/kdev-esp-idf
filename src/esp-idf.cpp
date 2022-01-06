@@ -1,4 +1,5 @@
 #include "esp-idf.h"
+#include "flashjob.h"
 
 #include <locale>
 
@@ -10,6 +11,7 @@
 #include <KLocalizedString>
 #include <KConfigGroup>
 #include <KOpenWithDialog>
+#include <QIcon>
 
 #include <interfaces/launchconfigurationtype.h>
 #include <interfaces/launchconfigurationpage.h>
@@ -21,20 +23,15 @@
 #include <interfaces/iruncontroller.h>
 #include <interfaces/ilaunchconfiguration.h>
 #include <outputview/outputjob.h>
-
-#include "flashjob.h"
-
 #include <util/path.h>
 
-#include <QIcon>
-
+#include "ui_flashjob.h"
 
 QString _ESPIDFConfigTypeId = "ESP-IDF";
 QString portEntry = "Port";
 QString baudrateEntry = "Baudrate";
 
 K_PLUGIN_FACTORY_WITH_JSON(esp_idfFactory, "esp-idf.json", registerPlugin<esp_idf>(); )
-
 
 
 QIcon ESPIDFConfigPage::icon() const
@@ -53,8 +50,8 @@ void ESPIDFConfigPage::loadFromConfiguration(const KConfigGroup& cfg, KDevelop::
     Q_UNUSED(project);
 
     bool b = blockSignals( true );
-    port->setText( cfg.readEntry( portEntry, "/dev/ttyUSB0" ) );
-    baudrate->setText( cfg.readEntry( baudrateEntry, "115200" ) );
+    port->setText( cfg.readEntry( portEntry, DEFAULT_PORT ) );
+    baudrate->setText( cfg.readEntry( baudrateEntry, QString::number(DEFAULT_BAUDRATE) ) );
     blockSignals( b );
 }
 
@@ -119,8 +116,8 @@ KJob* ESPIDFLauncher::start(const QString& launchMode, KDevelop::ILaunchConfigur
     {
         KConfigGroup grp = cfg->config();
         return new FlashJob(cfg, parent->project, parent->executor, parent->env, 
-                            grp.readEntry( baudrateEntry, "115200" ), 
-                            grp.readEntry( portEntry, "/dev/ttyUSB0" ));
+                            grp.readEntry( baudrateEntry, QString::number(DEFAULT_BAUDRATE) ), 
+                            grp.readEntry( portEntry, DEFAULT_PORT ));
     }
     return nullptr;
 }
@@ -132,15 +129,13 @@ QStringList ESPIDFLauncher::supportedModes() const
 
 ESPIDFConfigType::ESPIDFConfigType()
 {
- //   return;
    factoryList.append( new ESPIDFPageFactory() );
 }
 
 QString ESPIDFConfigType::name() const
 {
-    return "esp-idf";
+    return _ESPIDFConfigTypeId;
 }
-
 
 QList<KDevelop::LaunchConfigurationPageFactory*> ESPIDFConfigType::configPages() const
 {
@@ -177,13 +172,14 @@ esp_idf::esp_idf(QObject *parent, const QVariantList& args)
 
     executor = new QProcess(this);
     // init idf paths
-    // shouldn't have done that”
+    // shouldn't have done that
 //     executor->start("bash", QStringList() << "-c" << "source /home/user/esp-idf/export.sh >/dev/null 2>&1 && printenv | grep -e IDF -e PATH");
 //     executor->waitForFinished();
 // 
 //    env = QProcessEnvironment::systemEnvironment();
 // 
-//     while (executor->canReadLine()) {
+//     while (executor->canReadLine())
+//     {
 //         QString line = QString::fromLocal8Bit(executor->readLine());
 //         env.insert(line.split("=")[0].trimmed(), line.split("=")[1].trimmed());
 //         printf("%s\n", line.split("=")[1].toStdString().c_str());
@@ -195,7 +191,7 @@ esp_idf::esp_idf(QObject *parent, const QVariantList& args)
 
     core()->runController()->addConfigurationType( t );
     
-    connect(core()->projectController(), &KDevelop::IProjectController::projectOpened, [this](KDevelop::IProject* _project) {
+    connect(core()->projectController(), &KDevelop::IProjectController::projectOpened, [this](KDevelop::IProject* _project){
         project = _project;
     });
 }

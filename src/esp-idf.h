@@ -5,9 +5,13 @@
 #include <interfaces/launchconfigurationpage.h>
 #include <interfaces/ilauncher.h>
 #include <interfaces/iplugin.h>
-
-#include "ui_browserappconfig.h"
 #include <QProcess>
+
+#include "ui_flashjob.h"
+
+#define DEFAULT_PORT      "/dev/ttyUSB0"
+#define DEFAULT_BAUDRATE  115200
+
 
 class esp_idf : public KDevelop::IPlugin
 {
@@ -21,7 +25,7 @@ public:
     QProcess* executor;
 };
 
-class ESPIDFConfigPage : public KDevelop::LaunchConfigurationPage, Ui::BrowserAppPage
+class ESPIDFConfigPage : public KDevelop::LaunchConfigurationPage, Ui::ESPIDFPage
 {
     Q_OBJECT
 public:
