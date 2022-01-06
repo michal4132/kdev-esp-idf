@@ -29,6 +29,10 @@ When CMAKE_INSTALL_PREFIX is set to "/home/userX/projects/mykdevplugin/" and
 this is a Debian 64-bit system, open a console and enter:
 
     export QT_PLUGIN_PATH=$QT_PLUGIN_PATH:/home/userX/projects/mykdevplugin/lib/x86_64-linux-gnu/plugins 
+ 
+source esp-idf before starting KDevelop:
+
+    . ~/esp-idf/export.sh
 
 Then start KDevelop from that console:
 
