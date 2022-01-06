@@ -1,0 +1,9 @@
+{
+    "KPlugin": {
+        "Description": "esp-idf",
+        "Id": "esp-idf",
+        "Name": "esp-idf"
+    },
+    "X-KDevelop-Category": "Global",
+    "X-KDevelop-Mode": "GUI"
+}
