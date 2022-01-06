@@ -1,5 +1,7 @@
 # ESP-IDF KDevelop Plugin
 
+Flash ESP32 directly from Kdevelop
+
 ## Installation instructions
 
 Make sure the project is configured to install to the directory of your choice:
