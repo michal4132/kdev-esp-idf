@@ -1,3 +1,3 @@
 [Project]
-Name=esp-idf
+Name=kdev-esp-idf
 Manager=KDevCMakeManager
